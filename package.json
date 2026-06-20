@@ -7,7 +7,7 @@
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index.js"
+    "dev": "node api.js && nodemon index.js"
   },
   "dependencies": {
     "express": "^5.2.1"

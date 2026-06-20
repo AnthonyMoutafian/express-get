@@ -12,18 +12,35 @@ app.get("/users", async (req, res) => {
   );
 
   if (name) {
-    users = users.filter((user) =>
+    const filteredNameUsers = users.filter((user) =>
       user.name.toLowerCase().includes(name.toLowerCase()),
     );
+
+    res.json(filteredNameUsers);
+    return;
   }
 
   if (age === "min") {
-    users = users.toSorted((a, b) => a.age - b.age);
+    const filteredMinUsers = users.toSorted((a, b) => a.age - b.age);
+    res.json(filteredMinUsers);
+    return;
   } else if (age === "max") {
-    users = users.toSorted((a, b) => b.age - a.age);
+    const filteredMaxUsers = users.toSorted((a, b) => b.age - a.age);
+    res.json(filteredMaxUsers);
+    return;
   }
 
   res.json(users);
+});
+
+app.get("/users/:id", async (req, res) => {
+  let users = JSON.parse(
+    await fs.readFile(createPath("db", "users.json"), "utf-8"),
+  );
+
+  const { id } = req.params;
+
+  res.json(users.find((user) => user.id === +id));
 });
 
 app.listen(3000, (err) => {
